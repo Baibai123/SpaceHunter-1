@@ -1,0 +1,112 @@
+package gamecore;
+
+import java.awt.Graphics;
+import java.awt.Point;
+
+import org.omg.CORBA.PUBLIC_MEMBER;
+
+import display.Animation;
+
+public class enemy extends Character {
+
+	private final static int GRAVITY = 1;
+
+	public boolean runningRight;
+
+	public boolean runningLeft;
+
+	public boolean standRight;
+
+	public boolean standLeft;
+
+	private Animation animRight;
+
+	private Animation animLeft;
+
+	private Object world;
+
+	public enemy(int x, int y, TileMap tileMap) {
+		
+		runningLeft = false;
+
+		runningRight = false;
+
+		standLeft = false;
+
+		standRight = true;
+
+		setPDX(5);
+
+		setPDY(10);
+		
+		super(x,);
+	}
+
+	public void update() {
+
+		if (dx > 0) {
+
+			runningLeft = false;
+
+			runningRight = true;
+		}
+
+		else if (dx < 0) {
+
+			runningLeft = true;
+
+			runningRight = false;
+		}
+
+		locX += dx;
+
+		dy += GRAVITY;
+
+		locY += dy;
+
+		if (runningRight) {
+
+			animRight.updateImage();
+
+		} else if (runningLeft) {
+
+			animLeft.updateImage();
+
+		}
+		if (world.worldCollisionVertical(this,thisPosition(),nextPosition(),0) {
+			setPDY(0);
+		}if(world.worldCollisionHorizontal(this,thisPosition(),nextPosition(),0){
+			dx = -dx;
+
+			}
+		public Point nextPosition(){
+			int offsetX = bgManager.getOffsetX();
+			int nextX = locX + offsetX;
+			int nextY = locY + offsetY;
+			nextY += dy;
+			if(runningRight){
+				nextX +=5;
+			}
+			else if(runningLeft){
+				nextX -=10;
+				}
+			return new Point(nextX,nextY);
+			}
+		}
+
+	public void draw(Graphics g) {
+		int locX, locY;
+		locX = getDX() - world.getOffsetX();
+		locY = getDY() - world.getOffsetY();
+		if (runningRight) {
+			animRight.draw(g, locX, locY);
+		} else if (runningLeft) {
+			animLeft.draw(g, locX, locY);
+		} else if (standRight) {
+			animRight.draw(g, locX, locY);
+		} else if (standLeft) {
+			animLeft.draw(g, locX, locY);
+		}
+
+	}
+}
